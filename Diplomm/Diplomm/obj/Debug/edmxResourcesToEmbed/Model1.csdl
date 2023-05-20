@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibraryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Authors">
+    <Key>
+      <PropertyRef Name="AuthorId" />
+    </Key>
+    <Property Name="AuthorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AuthorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Self.FK__Books__AuthorId__4E88ABD4" FromRole="Authors" ToRole="Books" />
+  </EntityType>
+  <EntityType Name="BookReservations">
+    <Key>
+      <PropertyRef Name="ReservationId" />
+    </Key>
+    <Property Name="ReservationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookId" Type="Int32" Nullable="false" />
+    <Property Name="ReaderId" Type="Int32" Nullable="false" />
+    <Property Name="ReservationDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ReturnDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Books" Relationship="Self.FK__BookReser__BookI__3A81B327" FromRole="BookReservations" ToRole="Books" />
+    <NavigationProperty Name="Readers" Relationship="Self.FK__BookReser__Reade__3B75D760" FromRole="BookReservations" ToRole="Readers" />
+    <NavigationProperty Name="Books1" Relationship="Self.FK_BookReservations_Books" FromRole="BookReservations" ToRole="Books" />
+    <NavigationProperty Name="Readers1" Relationship="Self.FK_BookReservations_Readers" FromRole="BookReservations" ToRole="Readers" />
+  </EntityType>
+  <EntityType Name="Books">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Author" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Year" Type="Int32" Nullable="false" />
+    <Property Name="Genre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AuthorId" Type="Int32" />
+    <NavigationProperty Name="Authors" Relationship="Self.FK__Books__AuthorId__4E88ABD4" FromRole="Books" ToRole="Authors" />
+    <NavigationProperty Name="BookReservations" Relationship="Self.FK__BookReser__BookI__3A81B327" FromRole="Books" ToRole="BookReservations" />
+    <NavigationProperty Name="BookReservations1" Relationship="Self.FK_BookReservations_Books" FromRole="Books" ToRole="BookReservations" />
+  </EntityType>
+  <EntityType Name="Readers">
+    <Key>
+      <PropertyRef Name="ReaderId" />
+    </Key>
+    <Property Name="ReaderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="BookReservations" Relationship="Self.FK__BookReser__Reade__3B75D760" FromRole="Readers" ToRole="BookReservations" />
+    <NavigationProperty Name="BookReservations1" Relationship="Self.FK_BookReservations_Readers" FromRole="Readers" ToRole="BookReservations" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Books__AuthorId__4E88ABD4">
+    <End Role="Authors" Type="Self.Authors" Multiplicity="0..1" />
+    <End Role="Books" Type="Self.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Authors">
+        <PropertyRef Name="AuthorId" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="AuthorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BookReser__BookI__3A81B327">
+    <End Role="Books" Type="Self.Books" Multiplicity="1" />
+    <End Role="BookReservations" Type="Self.BookReservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Books">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="BookReservations">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BookReser__Reade__3B75D760">
+    <End Role="Readers" Type="Self.Readers" Multiplicity="1" />
+    <End Role="BookReservations" Type="Self.BookReservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Readers">
+        <PropertyRef Name="ReaderId" />
+      </Principal>
+      <Dependent Role="BookReservations">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BookReservations_Books">
+    <End Role="Books" Type="Self.Books" Multiplicity="1" />
+    <End Role="BookReservations" Type="Self.BookReservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Books">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="BookReservations">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BookReservations_Readers">
+    <End Role="Readers" Type="Self.Readers" Multiplicity="1" />
+    <End Role="BookReservations" Type="Self.BookReservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Readers">
+        <PropertyRef Name="ReaderId" />
+      </Principal>
+      <Dependent Role="BookReservations">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibraryDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Authors" EntityType="Self.Authors" />
+    <EntitySet Name="BookReservations" EntityType="Self.BookReservations" />
+    <EntitySet Name="Books" EntityType="Self.Books" />
+    <EntitySet Name="Readers" EntityType="Self.Readers" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="FK__Books__AuthorId__4E88ABD4" Association="Self.FK__Books__AuthorId__4E88ABD4">
+      <End Role="Authors" EntitySet="Authors" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BookReser__BookI__3A81B327" Association="Self.FK__BookReser__BookI__3A81B327">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="BookReservations" EntitySet="BookReservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BookReser__Reade__3B75D760" Association="Self.FK__BookReser__Reade__3B75D760">
+      <End Role="Readers" EntitySet="Readers" />
+      <End Role="BookReservations" EntitySet="BookReservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BookReservations_Books" Association="Self.FK_BookReservations_Books">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="BookReservations" EntitySet="BookReservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BookReservations_Readers" Association="Self.FK_BookReservations_Readers">
+      <End Role="Readers" EntitySet="Readers" />
+      <End Role="BookReservations" EntitySet="BookReservations" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
